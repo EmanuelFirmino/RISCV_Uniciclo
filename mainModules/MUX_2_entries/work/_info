@@ -1,0 +1,97 @@
+m255
+K4
+z2
+!s11e vcom 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries
+Emux
+Z1 w1664569915
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 5
+R0
+Z5 8/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/mux.vhdl
+Z6 F/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/mux.vhdl
+l0
+L5 1
+VA`LVcmHaC^hQ=Bhh]gi3e1
+!s100 :oz9]e;a>JhE3@naZQDBj2
+Z7 OV;C;2020.1;71
+32
+Z8 !s110 1664569934
+!i10b 1
+Z9 !s108 1664569934.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/mux.vhdl|
+Z11 !s107 /home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/mux.vhdl|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Artl
+R2
+R3
+R4
+DEx4 work 3 mux 0 22 A`LVcmHaC^hQ=Bhh]gi3e1
+!i122 5
+l17
+L13 25
+VVQ?f2L[RV^RfBDhE:7P8C1
+!s100 fkYCfgRn;0OJBVY78H;WZ0
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Etestbench
+Z14 w1664570084
+R2
+R3
+R4
+!i122 7
+R0
+Z15 8/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/testbench.vhdl
+Z16 F/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/testbench.vhdl
+l0
+L5 1
+V8UO<359bCNHKGYneH:?V13
+!s100 MTAB^bMb96MmMIUN@[1PY3
+R7
+32
+Z17 !s110 1664570090
+!i10b 1
+Z18 !s108 1664570090.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|/home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/testbench.vhdl|
+Z20 !s107 /home/littlestar/cracking/RISCV_Uniciclo/mainModules/MUX_2_entries/testbench.vhdl|
+!i113 1
+R12
+R13
+Atb
+R2
+R3
+R4
+Z21 DEx4 work 9 testbench 0 22 8UO<359bCNHKGYneH:?V13
+!i122 7
+l22
+Z22 L8 29
+Z23 VjJ002GnTgmNjg^e]3KKhL1
+Z24 !s100 m^XzdEzeI09WfG[V4VJ;Y3
+R7
+32
+R17
+!i10b 1
+R18
+R19
+R20
+!i113 1
+R12
+R13
