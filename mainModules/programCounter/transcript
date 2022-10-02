@@ -1,0 +1,18 @@
+# Loading project pc
+# Compile of pc.vhdl was successful.
+# Compile of testbench.vhdl failed with 1 errors.
+# 2 compiles, 1 failed with 1 error.
+# Compile of testbench.vhdl failed with 9 errors.
+# Compile of testbench.vhdl failed with 1 errors.
+# Compile of testbench.vhdl was successful.
+vsim work.testbench
+# vsim work.testbench 
+# Start time: 14:29:31 on Oct 02,2022
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(tb)
+# Loading work.pc(rtl)
+add wave -position insertpoint sim:/testbench/DUT/*
+run
