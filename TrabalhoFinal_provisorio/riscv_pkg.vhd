@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 package riscv_pkg is
     -- Constantes
     constant WORD_SIZE 	: natural := 32;
+    constant BREG_INDEX : natural := 5;    
     constant MEM_ADDR	: integer := 10;
-    constant BREG_IDX 	: natural := 5;
     constant MEM_SIZE	: integer := 1024;
     constant INC_PC	: std_logic_vector(WORD_SIZE - 1 downto 0) := (2 => '1', others => '0');
     constant ZERO32     : std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');
@@ -66,15 +66,55 @@ package riscv_pkg is
             data  	: out std_logic_vector(WORD_SIZE - 1 downto 0));
     end component;
 
-    component pc is
-        generic (
-            SIZE : natural := WORD_SIZE);
+    component controle is
         port (
-            clk		: in  std_logic;
-            wren	: in  std_logic;
-            rst		: in  std_logic;
-            d_in	: in  std_logic_vector(WORD_SIZE - 1 downto 0);
-            d_out	: out std_logic_vector(WORD_SIZE - 1 downto 0));
+            opcode      : in  std_logic_vector(6 downto 0);
+            alu_op      : out std_logic_vector(1 downto 0);
+            is_branch   : out std_logic;
+            mem_read    : out std_logic;
+            mem_to_reg  : out std_logic;
+            mem_write   : out std_logic;
+            alu_src     : out std_logic;
+            reg_write   : out std_logic;
+            auipc_lui   : out std_logic_vector(1 downto 0);
+            is_jump     : out std_logic;
+            jalr        : out std_logic);
+    end component;
+
+    component controle_ula is
+        port (
+            alu_op	: in  std_logic_vector(1 downto 0);
+            funct3	: in  std_logic_vector(2 downto 0);
+            funct7	: in  std_logic;
+            alu_ctr	: out std_logic_vector(3 downto 0));
+    end component;
+
+    component genImm32 is
+    port (
+        instr: in std_logic_vector(WORD_SIZE-1 downto 0);
+        imm32: out std_logic_vector(WORD_SIZE-1 downto 0));
+    end component;
+
+    component data_mem is
+        generic (
+            SIZE : natural := WORD_SIZE;
+            WADDR : natural := MEM_ADDR);
+        port (
+            address	: in std_logic_vector (WADDR - 1 downto 0);
+            clk	        : in std_logic;
+            data	: in std_logic_vector (SIZE - 1 downto 0);
+            wren	: in std_logic;
+            mem_read    : in std_logic;
+            q		: out std_logic_vector (SIZE - 1 downto 0));
+    end component;
+
+    component memInstr is
+        generic (
+            SIZE : natural := WORD_SIZE;
+            WADDR : natural := MEM_ADDR);
+        port (
+            ADDRESS : in  std_logic_vector (WADDR - 1 downto 0);
+            Q 	    : out std_logic_vector(SIZE - 1 downto 0));
     end component;
 
     component mux2 is
@@ -97,6 +137,17 @@ package riscv_pkg is
             m_out	: out std_logic_vector(SIZE - 1 downto 0));
     end component;
 
+    component pc is
+        generic (
+            SIZE : natural := WORD_SIZE);
+        port (
+            clk		: in  std_logic;
+            wren	: in  std_logic;
+            rst		: in  std_logic;
+            d_in	: in  std_logic_vector(WORD_SIZE - 1 downto 0);
+            d_out	: out std_logic_vector(WORD_SIZE - 1 downto 0));
+    end component;
+
     component somador is
         generic (
             SIZE : natural := WORD_SIZE);
@@ -104,15 +155,6 @@ package riscv_pkg is
             a	    : in  std_logic_vector (SIZE - 1 downto 0);
             b	    : in  std_logic_vector (SIZE - 1 downto 0);
             sum     : out std_logic_vector (SIZE - 1 downto 0));
-    end component;
-
-    component memInstr is
-        generic (
-            SIZE : natural := WORD_SIZE;
-            WADDR : natural := MEM_ADDR);
-        port (
-            ADDRESS : in  std_logic_vector (WADDR - 1 downto 0);
-            Q 	    : out std_logic_vector(SIZE - 1 downto 0));
     end component;
 
     component ula is
@@ -126,55 +168,13 @@ package riscv_pkg is
     component xreg is
         generic (
             SIZE : natural := WORD_SIZE;
-            ADDR : natural := BREG_IDX
+            ADDR : natural := BREG_INDEX
         );
         port (
             clk, wren       : in std_logic;
             rs1, rs2, rd    : in std_logic_vector(ADDR-1 downto 0);
             data_in         : in std_logic_vector(SIZE-1 downto 0);
             A, B            : out std_logic_vector(SIZE-1 downto 0));
-    end component;
-
-    component controle_ula is
-        port (
-            alu_op	: in  std_logic_vector(1 downto 0);
-            funct3	: in  std_logic_vector(2 downto 0);
-            funct7	: in  std_logic;
-            alu_ctr	: out std_logic_vector(3 downto 0));
-    end component;
-
-    component controle is
-        port (
-            opcode      : in  std_logic_vector(6 downto 0);
-            alu_op      : out std_logic_vector(1 downto 0);
-            is_branch   : out std_logic;
-            mem_read    : out std_logic;
-            mem_to_reg  : out std_logic;
-            mem_write   : out std_logic;
-            alu_src     : out std_logic;
-            reg_write   : out std_logic;
-            auipc_lui   : out std_logic_vector(1 downto 0);
-            is_jump     : out std_logic;
-            jalr        : out std_logic);
-    end component;
-
-    component genImm32 is
-    port (
-        instr: in std_logic_vector(WORD_SIZE-1 downto 0);
-        imm32: out std_logic_vector(WORD_SIZE-1 downto 0));
-    end component;
-
-    component data_mem is
-        generic (
-            SIZE : natural := WORD_SIZE;
-            WADDR : natural := MEM_ADDR);
-        port (
-            address	: in std_logic_vector (WADDR - 1 downto 0);
-            clk	        : in std_logic;
-            data	: in std_logic_vector (SIZE - 1 downto 0);
-            wren	: in std_logic;
-            mem_read    : in std_logic;
-            q		: out std_logic_vector (SIZE - 1 downto 0));
     end component;
 
 end riscv_pkg;

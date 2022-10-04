@@ -6,7 +6,7 @@ use work.riscv_pkg.all;
 entity xreg is
     generic (
         SIZE : natural := WORD_SIZE;
-        ADDR : natural := BREG_IDX
+        ADDR : natural := BREG_INDEX
     );
     port (
         clk, wren  : in std_logic;

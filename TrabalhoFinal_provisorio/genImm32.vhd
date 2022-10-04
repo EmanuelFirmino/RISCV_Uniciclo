@@ -13,19 +13,23 @@ architecture arch of genImm32 is
 begin
     process(instr)
     begin
-        case '0'&instr(6 downto 0) is
-            when x"33" => 
+        case instr(6 downto 0) is	-- OPCODE
+            when iRType => --R-type
                 imm32 <= (others => '0');
-            when x"03" | x"13" | x"67" => 
-                imm32 <= std_logic_vector(resize(signed(instr(31 downto 20)), 32));
-            when x"23" => 
-                imm32 <= std_logic_vector(resize(signed(instr(31 downto 25) & instr(11 downto 7)), 32));
-            when x"63" => 
-                imm32 <= std_logic_vector(resize(signed(instr(31) & instr(7) & instr(30 downto 25) & instr(11 downto 8) & '0'), 32));
-            when x"37" => 
-                imm32 <= std_logic_vector(resize(signed(instr(31) & instr(19 downto 12) & instr(20) & instr(30 downto 21) & '0'), 32));
-            when x"6F" => 
-                imm32 <= std_logic_vector(resize(signed(instr(31 downto 12)), 32));
+            when iILType | iIType | iJALR => --I-type
+                if ((instr(6 downto 0) = iIType and instr(14 downto 12) = iSLL3) or (instr(6 downto 0) = iIType and instr(14 downto 12) = iSRLSRA3)) then
+                    imm32 <= std_logic_vector(resize(signed(instr(24 downto 20)), imm32'length));
+                else
+                    imm32 <= std_logic_vector(resize(signed(instr(31 downto 20)), imm32'length));
+                end if;
+            when iSType => --S-type
+                imm32 <= std_logic_vector(resize(signed(instr(31 downto 25) & instr(11 downto 7)), imm32'length));
+            when iBType => --SB-type
+                imm32 <= std_logic_vector(resize(signed(instr(31) & instr(7) & instr(30 downto 25) & instr(11 downto 8) & '0'), imm32'length));
+            when iJAL => --UJ-type
+                imm32 <= std_logic_vector(resize(signed(instr(31) & instr(19 downto 12) & instr(20) & instr(30 downto 21) & '0'), imm32'length));
+            when iLUI | iAUIPC => --U-type
+                imm32 <= std_logic_vector(signed(instr(31 downto 12) & X"000"));
             when others =>
                 null;
         end case;

@@ -61,9 +61,9 @@ begin
 
     pc_i: pc port map (clk, '1', rst, pcin, pcout);
 
-    imem_i: memInstr port map (imem_address, instr);
+    somar4comPC_i: somador port map (pcout, INC_PC, nextpc);
 
-    adder4_i: somador port map (pcout, INC_PC, nextpc);
+    memoria_instrucoes_i: memInstr port map (imem_address, instr);
 
     controle_i: controle port map (
         opcode_field,
@@ -115,5 +115,3 @@ begin
     mem_to_reg_mux_i: mux2 port map (alu_result, dmout, mem_to_reg, regdata);
 
 end architecture rtl;
-
-
