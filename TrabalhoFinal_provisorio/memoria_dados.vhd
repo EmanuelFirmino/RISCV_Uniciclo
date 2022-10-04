@@ -10,7 +10,7 @@ entity data_mem is
         WADDR   : natural := MEM_ADDR);
     port (
         address	    : in std_logic_vector (WADDR - 1 downto 0);
-        clk	        : in std_logic;
+        clk	    : in std_logic;
         data	    : in std_logic_vector (SIZE - 1 downto 0);
         wren	    : in std_logic;
         mem_read    : in std_logic;

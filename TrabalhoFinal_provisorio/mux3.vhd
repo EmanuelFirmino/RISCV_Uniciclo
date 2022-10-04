@@ -6,10 +6,8 @@ entity mux3 is
     generic (
         SIZE : natural := WORD_SIZE);
     port (
-        A,
-        B,
-        C  : in std_logic_vector(SIZE - 1 downto 0);
-        sel		: in std_logic_vector(1 downto 0);
+        A,B,C   : in std_logic_vector(SIZE - 1 downto 0);
+        sel	: in std_logic_vector(1 downto 0);
         m_out	: out std_logic_vector(SIZE - 1 downto 0));
 end mux3;
 

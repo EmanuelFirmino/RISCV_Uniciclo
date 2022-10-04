@@ -12,15 +12,15 @@ package riscv_pkg is
     constant ZERO32     : std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');
     constant ONE32      : std_logic_vector(WORD_SIZE-1 downto 0) := (WORD_SIZE-1 downto 1 => '0') & '1';
     -- Opcodes
-    constant iRType		: std_logic_vector(6 downto 0) := "0110011";
-    constant iILType		: std_logic_vector(6 downto 0) := "0000011";
-    constant iSType		: std_logic_vector(6 downto 0) := "0100011";
-    constant iBType		: std_logic_vector(6 downto 0) := "1100011";
-    constant iIType             : std_logic_vector(6 downto 0) := "0010011";
-    constant iLUI		: std_logic_vector(6 downto 0) := "0110111";
-    constant iAUIPC		: std_logic_vector(6 downto 0) := "0010111";
-    constant iJALR		: std_logic_vector(6 downto 0) := "1100111";
-    constant iJAL		: std_logic_vector(6 downto 0) := "1101111";
+    constant iRType	: std_logic_vector(6 downto 0) := "0110011";
+    constant iILType	: std_logic_vector(6 downto 0) := "0000011";
+    constant iSType	: std_logic_vector(6 downto 0) := "0100011";
+    constant iBType	: std_logic_vector(6 downto 0) := "1100011";
+    constant iIType     : std_logic_vector(6 downto 0) := "0010011";
+    constant iLUI	: std_logic_vector(6 downto 0) := "0110111";
+    constant iAUIPC	: std_logic_vector(6 downto 0) := "0010111";
+    constant iJALR	: std_logic_vector(6 downto 0) := "1100111";
+    constant iJAL	: std_logic_vector(6 downto 0) := "1101111";
 
     -- Opcodes da ULA
     constant ALU_CTR_LW_SW_LUI_AUIPC    : std_logic_vector(1 downto 0) := "00";
@@ -66,7 +66,7 @@ package riscv_pkg is
             data  	: out std_logic_vector(WORD_SIZE - 1 downto 0));
     end component;
 
-    component reg is
+    component pc is
         generic (
             SIZE : natural := WORD_SIZE);
         port (
@@ -169,18 +169,12 @@ package riscv_pkg is
             SIZE : natural := WORD_SIZE;
             WADDR : natural := MEM_ADDR);
         port (
-            address	    : in std_logic_vector (WADDR - 1 downto 0);
+            address	: in std_logic_vector (WADDR - 1 downto 0);
             clk	        : in std_logic;
-            data	    : in std_logic_vector (SIZE - 1 downto 0);
-            wren	    : in std_logic;
+            data	: in std_logic_vector (SIZE - 1 downto 0);
+            wren	: in std_logic;
             mem_read    : in std_logic;
-            q		    : out std_logic_vector (SIZE - 1 downto 0));
-    end component;
-
-        component clk_div is
-        port (
-            clk	  : in std_logic;
-            clk64 : out std_logic);
+            q		: out std_logic_vector (SIZE - 1 downto 0));
     end component;
 
 end riscv_pkg;

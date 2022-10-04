@@ -5,8 +5,8 @@ use work.riscv_pkg.all;
 
 entity riscv is
     port (
-        clk		: in std_logic;
-        rst	    : in std_logic := '0';
+        clk	: in std_logic;
+        rst	: in std_logic := '0';
         data  	: out std_logic_vector(WORD_SIZE - 1 downto 0));
 end riscv;
 
@@ -59,7 +59,7 @@ begin
 
     data <= pcout;
 
-    pc_i: reg port map (clk, '1', rst, pcin, pcout);
+    pc_i: pc port map (clk, '1', rst, pcin, pcout);
 
     imem_i: memInstr port map (imem_address, instr);
 
