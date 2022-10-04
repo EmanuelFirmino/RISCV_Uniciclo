@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.riscv_pkg.all;
 
 entity ula is
     generic (WORD_SIZE : natural := 32);

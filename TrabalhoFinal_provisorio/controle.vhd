@@ -3,7 +3,7 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.riscv_pkg.all;
 
-entity control is
+entity controle is
     port (
         opcode      : in std_logic_vector(6 downto 0);
         alu_op      : out std_logic_vector(1 downto 0);
@@ -16,9 +16,9 @@ entity control is
         auipc_lui   : out std_logic_vector(1 downto 0);
         is_jump     : out std_logic;
         jalr        : out std_logic);
-end control;
+end controle;
 
-architecture behavioral of control is
+architecture behavioral of controle is
 begin
     process(opcode)
     begin

@@ -3,12 +3,12 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.riscv_pkg.all;
 
-entity rv_uniciclo_tb is
-end entity rv_uniciclo_tb;
+entity riscv_tb is
+end entity riscv_tb;
 
-architecture tb_arch of rv_uniciclo_tb is
+architecture tb_arch of riscv_tb is
 
-component rv_uniciclo is
+component riscv is
     port (
         clk		: in std_logic;
         rst	    : in std_logic;
@@ -20,7 +20,7 @@ signal rst : std_logic;
 signal data_out : std_logic_vector(31 downto 0);
 
 begin
-    rv_uniciclo_i: rv_uniciclo port map(clock_in, rst, data_out);
+    riscv_i: riscv port map(clock_in, rst, data_out);
 
     clkgen: process begin
         clock_in <= '1'; wait for 100 ns;
