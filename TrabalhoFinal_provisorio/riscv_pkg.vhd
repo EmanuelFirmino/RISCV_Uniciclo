@@ -9,8 +9,8 @@ package riscv_pkg is
     constant MEM_ADDR	: integer := 10;
     constant MEM_SIZE	: integer := 1024;
     constant INC_PC	: std_logic_vector(WORD_SIZE - 1 downto 0) := (2 => '1', others => '0');
-    constant ZERO32     : std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');
-    constant ONE32      : std_logic_vector(WORD_SIZE-1 downto 0) := (WORD_SIZE-1 downto 1 => '0') & '1';
+    constant ZERO	: std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');
+
     -- Opcodes
     constant iRType	: std_logic_vector(6 downto 0) := "0110011";
     constant iILType	: std_logic_vector(6 downto 0) := "0000011";
@@ -23,10 +23,10 @@ package riscv_pkg is
     constant iJAL	: std_logic_vector(6 downto 0) := "1101111";
 
     -- Opcodes da ULA
-    constant CONTROLE_ULA_ARIT_SHIFT_COMP   : std_logic_vector(1 downto 0) := "10";
+    constant CONTROLE_ULA_ARIT_SHIFT_COMP     : std_logic_vector(1 downto 0) := "10";
     constant CONTROLE_ULA_IMEDIATOS           : std_logic_vector(1 downto 0) := "11";
-    constant CONTROLE_ULA_BRANCH             : std_logic_vector(1 downto 0) := "01";
-    constant CONTROLE_ULA_MEM_LUI_AUIPC    : std_logic_vector(1 downto 0) := "00";
+    constant CONTROLE_ULA_BRANCH              : std_logic_vector(1 downto 0) := "01";
+    constant CONTROLE_ULA_MEM_LUI_AUIPC       : std_logic_vector(1 downto 0) := "00";
     
 
     -- FUNCT3

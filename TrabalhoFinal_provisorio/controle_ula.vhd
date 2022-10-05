@@ -16,8 +16,7 @@ begin
     process(ula_op, funct7, funct3)
     begin
         case ula_op is
-            when CONTROLE_ULA_MEM_LUI_AUIPC => -- Memória
-                ula_controle <= ULA_ADD;
+            
             when CONTROLE_ULA_BRANCH => -- Branchs
                 case funct3 is
                     when iBEQ3 =>
@@ -42,6 +41,8 @@ begin
             
                     when others => null;
                 end case;
+	    when CONTROLE_ULA_MEM_LUI_AUIPC => -- Memória
+                ula_controle <= ULA_ADD;
             when others => null;
         end case;
     end process;

@@ -23,7 +23,7 @@ begin
     process(opcode)
     begin
         case opcode is
-            when iRType | iIType => -- Arithmetic and Logical
+            when iRType | iIType => 
                 if (opcode = iRType) then 
                     ula_fonte  <= '0';
                     ula_op   <= CONTROLE_ULA_ARIT_SHIFT_COMP;
@@ -39,7 +39,7 @@ begin
                 auipc_lui   <= MUX_SEL_REG1;
                 is_jump     <= '0';
                 jalr        <= '0';
-            when iILType => -- lw
+            when iILType => 
                 ula_fonte     <= '1';
                 mem_to_reg  <= '1';
                 reg_write   <= '1';
@@ -50,7 +50,7 @@ begin
                 auipc_lui   <= MUX_SEL_REG1;
                 is_jump     <= '0';
                 jalr        <= '0';
-            when iSType => -- sw
+            when iSType => 
                 ula_fonte     <= '1';
                 mem_to_reg  <= '0';
                 reg_write   <= '0';
@@ -61,7 +61,7 @@ begin
                 auipc_lui   <= MUX_SEL_REG1;
                 is_jump     <= '0';
                 jalr        <= '0';
-            when iBType => -- Branch
+            when iBType => 
                 ula_fonte     <= '0';
                 mem_to_reg  <= '0';
                 reg_write   <= '0';
@@ -78,7 +78,7 @@ begin
                 else
                     auipc_lui   <= MUX_SEL_AUIPC;
                 end if;
-                ula_fonte     <= '1';
+                ula_fonte   <= '1';
                 mem_to_reg  <= '0';
                 reg_write   <= '1';
                 mem_read    <= '0';
@@ -86,6 +86,17 @@ begin
                 is_branch   <= '0';
                 ula_op      <= CONTROLE_ULA_MEM_LUI_AUIPC;
                 is_jump     <= '0';
+                jalr        <= '0';
+	    when iJAL =>
+                ula_fonte   <= '1';
+                mem_to_reg  <= '0';
+                reg_write   <= '1';
+                mem_read    <= '0';
+                mem_write   <= '0';
+                is_branch   <= '1';
+                ula_op      <= CONTROLE_ULA_MEM_LUI_AUIPC;
+                auipc_lui   <= MUX_SEL_AUIPC;
+                is_jump     <= '1';
                 jalr        <= '0';
             when iJALR =>
                 ula_fonte     <= '1';
@@ -98,17 +109,7 @@ begin
                 auipc_lui   <= MUX_SEL_REG1;
                 is_jump     <= '1';
                 jalr        <= '1';
-            when iJAL =>
-                ula_fonte     <= '1';
-                mem_to_reg  <= '0';
-                reg_write   <= '1';
-                mem_read    <= '0';
-                mem_write   <= '0';
-                is_branch   <= '1';
-                ula_op      <= CONTROLE_ULA_MEM_LUI_AUIPC;
-                auipc_lui   <= MUX_SEL_AUIPC;
-                is_jump     <= '1';
-                jalr        <= '0';
+            
             when others => null;
         end case ;
     end process;
