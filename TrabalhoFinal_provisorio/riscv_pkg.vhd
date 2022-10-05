@@ -23,10 +23,11 @@ package riscv_pkg is
     constant iJAL	: std_logic_vector(6 downto 0) := "1101111";
 
     -- Opcodes da ULA
-    constant ALU_CTR_LW_SW_LUI_AUIPC    : std_logic_vector(1 downto 0) := "00";
-    constant ALU_CTR_BRANCH             : std_logic_vector(1 downto 0) := "01";
-    constant ALU_CTR_ARI_LOG_SHI_COMP   : std_logic_vector(1 downto 0) := "10";
-    constant ALU_CTR_IMEDIATE           : std_logic_vector(1 downto 0) := "11";
+    constant CONTROLE_ULA_ARIT_SHIFT_COMP   : std_logic_vector(1 downto 0) := "10";
+    constant CONTROLE_ULA_IMEDIATOS           : std_logic_vector(1 downto 0) := "11";
+    constant CONTROLE_ULA_BRANCH             : std_logic_vector(1 downto 0) := "01";
+    constant CONTROLE_ULA_MEM_LUI_AUIPC    : std_logic_vector(1 downto 0) := "00";
+    
 
     -- FUNCT3
     -- Selecao do mux3 (AUIPC, LUI ou REG)
@@ -68,25 +69,25 @@ package riscv_pkg is
 
     component controle is
         port (
-            opcode      : in  std_logic_vector(6 downto 0);
-            alu_op      : out std_logic_vector(1 downto 0);
-            is_branch   : out std_logic;
+            opcode      : in std_logic_vector(6 downto 0);
+	    is_jump     : out std_logic;
+	    jalr        : out std_logic;
+	    is_branch   : out std_logic;
             mem_read    : out std_logic;
             mem_to_reg  : out std_logic;
+            ula_op      : out std_logic_vector(1 downto 0);
             mem_write   : out std_logic;
-            alu_src     : out std_logic;
+            ula_fonte   : out std_logic;
             reg_write   : out std_logic;
-            auipc_lui   : out std_logic_vector(1 downto 0);
-            is_jump     : out std_logic;
-            jalr        : out std_logic);
+            auipc_lui   : out std_logic_vector(1 downto 0));
     end component;
 
     component controle_ula is
         port (
-            alu_op	: in  std_logic_vector(1 downto 0);
-            funct3	: in  std_logic_vector(2 downto 0);
-            funct7	: in  std_logic;
-            alu_ctr	: out std_logic_vector(3 downto 0));
+            ula_op  : in std_logic_vector(1 downto 0);
+            funct3  : in std_logic_vector(2 downto 0);
+            funct7  : in std_logic;
+            ula_controle : out std_logic_vector(3 downto 0));
     end component;
 
     component genImm32 is

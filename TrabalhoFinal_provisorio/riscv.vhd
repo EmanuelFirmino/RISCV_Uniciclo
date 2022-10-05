@@ -67,16 +67,16 @@ begin
 
     controle_i: controle port map (
         opcode_field,
-        alu_op,
+	is_jump,
+	jalr,
         is_branch,
         mem_read,
         mem_to_reg,
+	alu_op,
         mem_write,
         alu_src,
         reg_write,
-        auipc_lui,
-        is_jump,
-        jalr
+        auipc_lui
     );
 
     rd_mux_i:  mux2 port map (regdata, nextpc, is_jump, rd_data);
@@ -94,24 +94,24 @@ begin
 
     genImm32_i: genImm32 port map (instr, imm32);
 
-    u_type_mux3_i: mux3 port map (pcout, ZERO32, regA, auipc_lui, aluA);
+    mux3_i: mux3 port map (pcout, ZERO32, regA, auipc_lui, aluA);
 
-    jump_somador_mux_i:  mux2 port map (pcout, regA, jalr, jump_adder_in);
+    jump_mux2_i:  mux2 port map (pcout, regA, jalr, jump_adder_in);
 
-    alu_b_mux_i:  mux2 port map (regB, imm32, alu_src, aluB);
+    ula_mux_i:  mux2 port map (regB, imm32, alu_src, aluB);
 
-    alu_ctr_i: controle_ula port map (alu_op, func3_field, func7_5_field, alu_ctr);
+    controle_ula_i: controle_ula port map (alu_op, func3_field, func7_5_field, alu_ctr);
 
-    alu_i: ula port map (alu_ctr, aluA, aluB, alu_result);
+    ula_i: ula port map (alu_ctr, aluA, aluB, alu_result);
 
-    jump_adder_i: somador port map (jump_adder_in, imm32, pccond);
+    somador_jump_i: somador port map (jump_adder_in, imm32, pccond);
 
     branch <= (is_branch and alu_result(0)) or is_jump;
 
-    next_pc_mux_I: mux2 port map (nextpc, pccond, branch, pcin);
+    memoria_dados_i: data_mem port map (dmadd, clk, regB, mem_write, mem_read, dmout);
 
-    data_mem_i: data_mem port map (dmadd, clk, regB, mem_write, mem_read, dmout);
+    memoria_reg_mux_i: mux2 port map (alu_result, dmout, mem_to_reg, regdata);
 
-    mem_to_reg_mux_i: mux2 port map (alu_result, dmout, mem_to_reg, regdata);
+    incrementa_pc_I: mux2 port map (nextpc, pccond, branch, pcin);
 
 end architecture rtl;
