@@ -10,8 +10,8 @@ architecture tb_arch of riscv_tb is
 
 component riscv is
     port (
-        clk		: in std_logic;
-        rst	    : in std_logic;
+        clk	: in std_logic;
+        rst	: in std_logic;
         data  	: out std_logic_vector(WORD_SIZE - 1 downto 0));
 end component;
 
