@@ -3,14 +3,14 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.riscv_pkg.all;
 
-entity rv_uniciclo is
+entity riscv is
     port (
-        clk		: in std_logic;
-        rst	    : in std_logic := '0';
+        clk	: in std_logic;
+        rst	: in std_logic := '0';
         data  	: out std_logic_vector(WORD_SIZE - 1 downto 0));
-end rv_uniciclo;
+end riscv;
 
-architecture rtl of rv_uniciclo is
+architecture rtl of riscv is
 -- Sinais
     signal pcin         : std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');	-- Entrada do PC
     signal pcout        : std_logic_vector(WORD_SIZE - 1 downto 0) := (others => '0');	-- Saida do PC
@@ -59,13 +59,13 @@ begin
 
     data <= pcout;
 
-    pc_i: reg port map (clk, '1', rst, pcin, pcout);
+    pc_i: pc port map (clk, '1', rst, pcin, pcout);
 
-    imem_i: memInstr port map (imem_address, instr);
+    somar4comPC_i: somador port map (pcout, INC_PC, nextpc);
 
-    adder4_i: somador port map (pcout, INC_PC, nextpc);
+    memoria_instrucoes_i: memInstr port map (imem_address, instr);
 
-    control_i: control port map (
+    controle_i: controle port map (
         opcode_field,
         alu_op,
         is_branch,
@@ -79,7 +79,7 @@ begin
         jalr
     );
 
-    rd_mux_i:  mux2to1 port map (regdata, nextpc, is_jump, rd_data);
+    rd_mux_i:  mux2 port map (regdata, nextpc, is_jump, rd_data);
 
     xreg_i: xreg port map (
         clk,
@@ -94,13 +94,13 @@ begin
 
     genImm32_i: genImm32 port map (instr, imm32);
 
-    u_type_mux3_i: mux3to1 port map (pcout, ZERO32, regA, auipc_lui, aluA);
+    u_type_mux3_i: mux3 port map (pcout, ZERO32, regA, auipc_lui, aluA);
 
-    jump_somador_mux_i:  mux2to1 port map (pcout, regA, jalr, jump_adder_in);
+    jump_somador_mux_i:  mux2 port map (pcout, regA, jalr, jump_adder_in);
 
-    alu_b_mux_i:  mux2to1 port map (regB, imm32, alu_src, aluB);
+    alu_b_mux_i:  mux2 port map (regB, imm32, alu_src, aluB);
 
-    alu_ctr_i: alu_control port map (alu_op, func3_field, func7_5_field, alu_ctr);
+    alu_ctr_i: controle_ula port map (alu_op, func3_field, func7_5_field, alu_ctr);
 
     alu_i: ula port map (alu_ctr, aluA, aluB, alu_result);
 
@@ -108,12 +108,10 @@ begin
 
     branch <= (is_branch and alu_result(0)) or is_jump;
 
-    next_pc_mux_I: mux2to1 port map (nextpc, pccond, branch, pcin);
+    next_pc_mux_I: mux2 port map (nextpc, pccond, branch, pcin);
 
     data_mem_i: data_mem port map (dmadd, clk, regB, mem_write, mem_read, dmout);
 
-    mem_to_reg_mux_i: mux2to1 port map (alu_result, dmout, mem_to_reg, regdata);
+    mem_to_reg_mux_i: mux2 port map (alu_result, dmout, mem_to_reg, regdata);
 
 end architecture rtl;
-
-

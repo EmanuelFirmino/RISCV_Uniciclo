@@ -6,7 +6,7 @@ use work.riscv_pkg.all;
 
 entity memInstr is
     generic (
-        SIZE : natural := WORD_SIZE;
+        SIZE  : natural := WORD_SIZE;
         WADDR : natural := MEM_ADDR);
     port (
         address : in std_logic_vector (WADDR - 1 downto 0);
